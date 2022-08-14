@@ -152,63 +152,6 @@ def GBFS(starting_row, starting_column):
     return None
 
 
-# A* search
-def A_Star(starting_row, starting_column):
-    # Create lists for open nodes and closed nodes
-    open = []
-    visited = []
-
-    # Create a start node and an goal node
-    start_node = create_node(starting_row, starting_column, None, None, 0)
-
-    # Add the start node
-    open.append(start_node)
-
-    # Create cost variable to find total moves utilized
-    cost = -1
-
-    # Loop until the open list is empty
-    while open:
-        # Sort the open list to get the node with the lowest cost first
-        open.sort()
-
-        # Get the node with the lowest cost
-        current_node = open.pop(0)
-        
-        # counting total moves
-        if current_node not in visited:
-            cost += 1
-
-        # Add the current node to the closed list
-        visited.append(current_node)
-
-        # Check if we have reached the goal, return the path (From Current Node to Start Node By Node.parent)
-        if current_node.row == goal_row and current_node.column == goal_column:
-            # Print costs and return True
-            print('Algorithm used = "A*" , ', end='')
-            print("Path cost =", current_node.moves, ', No of moves utilized =', cost)
-            return True
-
-        # Get neighbours
-        neighbors = expand_node(current_node, visited)
-        
-        # Loop neighbors
-        for neighbor in neighbors:
-            # Check if the neighbor is in the closed list
-            if neighbor in visited:
-                continue
-            # Calculate cost to goal
-            neighbor.heuristic += neighbor.moves
-
-            # Check if neighbor is in open list and if it has a lower f value
-            if In_Open(open, neighbor):
-                # Everything is green, add neighbor to open list
-                open.append(neighbor)
-
-    # Return None, no path is found
-    return None
-
-
 # Check if a neighbor should be added to open list
 def In_Open(open, neighbor):
     for node in open:
@@ -225,9 +168,6 @@ def main():
     # calling functions and displaying output
     if GBFS(starting_row, starting_column) is None:
         print("No solution found using GBFS.")
-    if A_Star(starting_row, starting_column) is None:
-        print("No solution found using A*.")
-
 
 if __name__ == "__main__":
     main()
